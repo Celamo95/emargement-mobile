@@ -9,14 +9,35 @@ Connexion
 @endpush
 
 @section('content')
+
+{{-- Show a generic error message if needed --}}
+    @if (session('error'))
+        <div class="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+
 <div class="logo">
     <img src="{{asset('images/Groupe-GEFOR.png')}}" alt="Logo du groupe GEFOR">
 </div>
 <div class="form">
-    <form action="">
-        <input type="text" id="identifiant" name="identifiant" placeholder="Identifiant">
-        <input type="password" id="password" name="password" placeholder="Mot de passe">
-        <button type="submit"><a href="{{route('home')}}">Connexion</a></button>
+    <form method="POST" action="{{ route('login.post') }}">
+        @csrf
+        <input 
+        type="email" 
+        id="email" 
+        name="email" 
+        placeholder="Identifiant"
+        autocomplete="email"
+        >
+        <input 
+        type="password" 
+        id="password" 
+        name="password" 
+        placeholder="Mot de passe"
+        autocomplete="current-password"
+        >
+        <button type="submit">Connexion</></button>
     </form>
 </div>
 @endsection

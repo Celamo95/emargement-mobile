@@ -13,21 +13,29 @@ Signature
 @endpush
 
 @section('content')
-<div class="logo">
-    <img src="{{asset('images/Groupe-GEFOR.png')}}" alt="Logo du groupe GEFOR">
-</div>
-<div>
-    <p>Vendredi 29 septembre 2026</p>
-    <p>Mathématiques pour l'informatique</p>
-    <p>9h - 12h30</p>
-
-    <div class="sign">
-        <label for="sign">Votre signature</label>
-        <canvas id="signature-pad"></canvas>
+<div class="nativephp-safe-area">
+    <div class="logo">
+        <img src="{{asset('images/Groupe-GEFOR.png')}}" alt="Logo du groupe GEFOR">
     </div>
+    <div>
+        <p><strong>Matière :</strong> {{ $cours['matiere'] ?? '' }}</p>
+        <p><strong>Date :</strong> {{ \Carbon\Carbon::parse($cours['date'])->format('d/m/Y') }}</p>
+        <p><strong>Horaires :</strong> {{ \Carbon\Carbon::parse($cours['heure_debut'])->format('H\hi') }} - {{ \Carbon\Carbon::parse($cours['heure_fin'])->format('H\hi') }}</p>
 
-    <button id="save" type="submit">Valider</button>
-    <button id="clear" type="submit">Effacer</button>
+        <canvas id="signature-pad" width=400 height=200></canvas>
+
+        <form method="POST" action="{{ route('sign.store') }}" id="signature-form">
+            @csrf
+            <input type="hidden" name="cours_id" value="{{ $cours['id'] }}">
+            <input type="hidden" name="signature" id="signature_input">
+            <button type="button" id="save">Valider</button>
+            <button type="button" id="clear">Effacer</button>
+        </form>
+
+        @if (session('error'))
+            <p>{{ session('error') }}</p>
+        @endif
+    </div>
+    <p><a href="{{ route('home') }}">Retour page accueil</a></p>
 </div>
-<p><a href="{{route('home')}}">Retour page accueil</a></p>
 @endsection
