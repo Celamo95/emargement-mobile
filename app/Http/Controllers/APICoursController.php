@@ -18,8 +18,14 @@ class APICoursController extends Controller
             abort($response->status(), 'Impossible de récupérer les cours');
         }
 
+        $today = now()->toDateString();
+
+        $cours = collect($response->json())->filter(function ($c) use ($today) {
+            return $c['date'] === $today;
+        })->values();
+
         return view('home', [
-            'cours' => $response->json(),
+            'cours' => $cours,
         ]);
     }
 
