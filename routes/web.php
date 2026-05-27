@@ -24,5 +24,5 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/sign', [ApiSignatureController::class, 'store'])->name('sign.store');
 
-    Route::post('/logout', [ApiAuthController::class, 'logout'])->name('logout');
+    Route::get('/logout', [ApiAuthController::class, 'logout'])->name('logout');
 });
