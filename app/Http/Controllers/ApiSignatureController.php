@@ -22,6 +22,7 @@ class ApiSignatureController extends Controller
 
         $cours = $response->json();
 
+
         return view('sign', compact('cours'));
     }
     public function store(Request $request)

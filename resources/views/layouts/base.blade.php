@@ -10,7 +10,7 @@
     <title>@yield('title')</title>
     @vite(['resources/css/app.css'])
     @stack('styles')
-    @stack('scripts')
+    
 </head>
 
 <body style="background:#f0f4ff; min-height:100vh; font-family:'Lato',sans-serif;">
@@ -24,7 +24,7 @@
         </a>
     </div>
     @endauth
-
+@stack('scripts')
 </body>
 
 </html>

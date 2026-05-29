@@ -40,4 +40,15 @@ Connexion
         <button type="submit">Connexion</></button>
     </form>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            document.querySelector('form').submit();
+        }
+    });
+</script>
+@endpush
+
 @endsection
