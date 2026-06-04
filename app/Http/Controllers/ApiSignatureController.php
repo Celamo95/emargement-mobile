@@ -46,9 +46,13 @@ class ApiSignatureController extends Controller
             // Log / handle error
             return back()->with('error', 'Erreur lors de l\'enregistrement de la signature distante.');
         }
-
-        return redirect()
-            ->route('home')
-            ->with('status', 'Signature enregistrée !');
+        return response('', 302)->header('Location', route('home', [
+            'statut'=>'Signature enregistrée !'
+        ], false));
+        
+        
+        //return redirect()
+         //   ->route('home')
+           // ->with('status', 'Signature enregistrée !');
     }
 }

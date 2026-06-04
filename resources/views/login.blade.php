@@ -21,7 +21,7 @@ Connexion
     <img src="{{asset('images/Groupe-GEFOR.png')}}" alt="Logo du groupe GEFOR">
 </div>
 <div class="form">
-    <form method="POST" action="{{ route('login.post') }}">
+    <form method="POST" action="{{ route('login.post',absolute: false) }}">
         @csrf
         <input 
         type="email" 
@@ -29,6 +29,7 @@ Connexion
         name="email" 
         placeholder="Identifiant"
         autocomplete="email"
+        autofocus
         >
         <input 
         type="password" 

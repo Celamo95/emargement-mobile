@@ -24,7 +24,7 @@ Signature
 
         <canvas id="signature-pad" width=400 height=200></canvas>
 
-        <form method="POST" action="{{ route('sign.store') }}" id="signature-form">
+        <form method="POST" action="{{ route('sign.store', absolute: false) }}" id="signature-form">
             @csrf
             <input type="hidden" name="cours_id" value="{{ $cours['id'] }}">
             <input type="hidden" name="signature" id="signature_input">
@@ -36,6 +36,6 @@ Signature
             <p>{{ session('error') }}</p>
         @endif
     </div>
-    <p><a href="{{ route('home') }}">Retour page accueil</a></p>
+    <p><a href="{{ route('home', absolute: false) }}">Retour page accueil</a></p>
 </div>
 @endsection

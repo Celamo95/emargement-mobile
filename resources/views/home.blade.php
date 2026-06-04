@@ -4,6 +4,8 @@
 Aujourd'hui
 @endsection
 
+
+
 @section('content')
 <div style="max-width:400px; margin:0 auto; padding:30px 20px; text-align:center; font-family:'Lato',sans-serif;">
 
@@ -38,13 +40,15 @@ Aujourd'hui
                         <p style="color:#6b7280; font-size:0.85rem; margin-bottom:12px;">{{ $c['user']['name'] }}</p>
                     @endif
                     <pre>{{ $c['id'] ?? 'PAS D ID' }}</pre>
-                    <a href="{{ route('sign', ['id'=>$c['id']]) }}" style="display:inline-block; background:#006cb1; color:white; padding:10px 40px; border-radius:8px; text-decoration:none; font-weight:600;">Signer</a>
+                    <a href="{{ route('sign', ['id'=>$c['id']], absolute: false) }}" style="display:inline-block; background:#006cb1; color:white; padding:10px 40px; border-radius:8px; text-decoration:none; font-weight:600;">Signer</a>
                 </div>
             @endforeach
         </div>
     @empty
         <p style="color:#6b7280;">Aucun cours.</p>
     @endforelse
+
+    <a href="{{ route('profil.show') }}">Mon profil</a>
 
 </div>
 

@@ -19,8 +19,8 @@ class ApiAuthController extends Controller
         ]);
 
         $response = Http::baseUrl(config('services.api.url'))
-                    ->acceptJson()
-                    ->post("/auth/login", $data);
+            ->acceptJson()
+            ->post("/auth/login", $data);
 
         if (! $response->successful()) {
             return back()
@@ -32,6 +32,7 @@ class ApiAuthController extends Controller
         // Token from App A
         $token = $payload['token'] ?? null;
         $userData = $payload['user'] ?? null;
+        
 
         if (! $token || ! $userData) {
             return back()
@@ -45,8 +46,10 @@ class ApiAuthController extends Controller
             ],
             [
                 'name' => $userData['name'] ?? $userData['email'],
+                'firstname' => $userData['firstname'] ?? '',
                 // Dummy local password: never used, but satisfies NOT NULL
                 'password' => Str::random(40),
+                'formation'=>$userData['formation'],
             ]
         );
 
@@ -55,8 +58,8 @@ class ApiAuthController extends Controller
 
         // Store the remote token in session so App B can call App A as this user
         Session::put('remote_auth_token', $token);
-
-        return redirect()->intended('/home');
+        return response('', 302)->header('Location', route('home', [], false));
+        //return redirect()->intended('/home');
     }
 
     public function logout(Request $request)
@@ -75,6 +78,6 @@ class ApiAuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return response('', 302)->header('Location', route('login', [], false));
     }
 }

@@ -19,7 +19,7 @@
 
     @auth
     <div style="text-align:center; padding:20px;">
-        <a href="{{ route('logout') }}" style="display:inline-block; background:#006cb1; color:white; padding:12px 40px; border-radius:8px; text-decoration:none; font-weight:600;">
+        <a href="{{ route('logout', absolute: false) }}" style="display:inline-block; background:#006cb1; color:white; padding:12px 40px; border-radius:8px; text-decoration:none; font-weight:600;">
             Se déconnecter
         </a>
     </div>
