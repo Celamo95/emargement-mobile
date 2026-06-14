@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class APICoursController extends Controller
 {
@@ -17,14 +18,15 @@ class APICoursController extends Controller
         if ($response->failed()) {
             abort($response->status(), 'Impossible de récupérer les cours');
         }
-
         $cours = collect($response->json())
+
             ->groupBy('date')
             ->sortKeys()
             ->toArray();
 
         return view('home', [
             'cours' => $cours,
+            'statut' => Auth::user()->statut,
         ]);
     }
 

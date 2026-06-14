@@ -6,48 +6,43 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rules\Password;
 
-class ProfilController extends Controller
+
+class ApiPasswordController extends Controller
 {
-
-    public function show()
-    {
-        // Auth::user() récupère l'utilisateur connecté via la session
-        $user = Auth::user();
-
-        return view('profil.show', compact('user'));
-    }
-
 
     public function edit()
     {
         $user = Auth::user();
 
-        return view('profil.edit', compact('user'));
+        return view('profil.editpassword', compact('user'));
     }
 
     public function update(Request $request)
     {
+
         $request->validate([
-            'name'      => ['required', 'string'],
-            'firstname' => ['required', 'string'],
-            'email'     => ['required', 'email'],
+            'password' => ['required', 'confirmed', Password::min(12)->letters()->mixedCase()->numbers()->symbols()],
+            'password_confirmation' => ['required'],
         ]);
 
         // On appelle l'API web pour modifier le profil en BDD MySQL
         $response = Http::baseUrl(config('services.api.url'))
             ->acceptJson()
             ->withToken(Session::get('remote_auth_token'))
-            ->put('/profil', [
-                'name'      => $request->name,
-                'firstname' => $request->firstname,
-                'email'     => $request->email,
+            ->put('/password', [
+                'password'      => $request->password,
             ]);
 
         if ($response->failed()) {
             return back()->with('error', 'Erreur lors de la mise à jour.');
         }
 
-        return redirect()->route('profil.show')->with('success', 'Profil mis à jour');
+        Auth::user()->update([
+            'password' => $request->password,
+        ]);
+
+        return redirect()->route('profil.show')->with('success', 'Mot de passe mis à jour');
     }
 }

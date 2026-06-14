@@ -12,6 +12,5 @@ Mon profil
 <p>Formation : {{ $user->formation->name ?? 'N/A' }}</p>
 
 <a href="{{ route('profil.edit') }}">Modifier mon profil</a>
-<a href="#">Changer mon mot de passe</a>
-
+<a href="{{ route('profil.passwordEdit') }}">Changer mon mot de passe</a>
 @endsection

@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiAuthController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiSignatureController;
-use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\ApiProfilController;
+use App\Http\Controllers\ApiPasswordController;
+
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -27,12 +29,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/logout', [ApiAuthController::class, 'logout'])->name('logout');
 
-    
-    Route::get('/profil', [ProfilController::class, 'show'])->name('profil.show');
+    Route::get('/profil', [ApiProfilController::class, 'show'])->name('profil.show');
 
+    Route::get('/profil/edit', [ApiProfilController::class, 'edit'])->name('profil.edit');
     
-    Route::get('/profil/edit', [ProfilController::class, 'edit'])->name('profil.edit');
+    Route::post('/profil', [ApiProfilController::class, 'update'])->name('profil.update');
 
-    
-    Route::post('/profil', [ProfilController::class, 'update'])->name('profil.update');
+    Route::get('/profil/password', [ApiPasswordController::class, 'edit'])->name('profil.passwordEdit');
+
+    Route::post('/profil/password', [ApiPasswordController::class, 'update'])->name('profil.passwordUpdate');
+
 });

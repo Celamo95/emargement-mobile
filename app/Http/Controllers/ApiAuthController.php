@@ -32,7 +32,7 @@ class ApiAuthController extends Controller
         // Token from App A
         $token = $payload['token'] ?? null;
         $userData = $payload['user'] ?? null;
-        
+
 
         if (! $token || ! $userData) {
             return back()
@@ -49,7 +49,7 @@ class ApiAuthController extends Controller
                 'firstname' => $userData['firstname'] ?? '',
                 // Dummy local password: never used, but satisfies NOT NULL
                 'password' => Str::random(40),
-                'formation'=>$userData['formation'],
+                'formation' => $userData['formation'],
             ]
         );
 
