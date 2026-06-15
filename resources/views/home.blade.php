@@ -35,7 +35,8 @@ Aujourd'hui
                     <p style="color:#6b7280; font-size:0.9rem; margin-bottom:6px;">
                         {{ \Carbon\Carbon::parse($c['heure_debut'])->format('H\hi') }} - {{ \Carbon\Carbon::parse($c['heure_fin'])->format('H\hi') }}
                     </p>
-                <p style="font-weight:700; font-size:1rem; color:#1f2937; margin-bottom:6px;">{{ isset($c['matiere']) ? $c['matiere']['nom'] : '' }}</p>
+                    <p style="font-weight:700; font-size:1rem; color:#1f2937; margin-bottom:6px;">{{ $c['formation_name'] ?? ($c['matiere']['nom'] ?? '') }}</p>
+                    <p style="font-weight:700; font-size:1rem; color:#1f2937; margin-bottom:6px;">{{ isset($c['matiere']) ? $c['matiere']['nom'] : '' }}</p>
                     <a href="{{ route('sign', ['id'=>$c['id']], absolute: false) }}" style="display:inline-block; background:#006cb1; color:white; padding:10px 40px; border-radius:8px; text-decoration:none; font-weight:600;">Signer</a>
                 </div>
             @endforeach

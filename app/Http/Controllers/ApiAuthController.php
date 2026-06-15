@@ -22,6 +22,7 @@ class ApiAuthController extends Controller
             ->acceptJson()
             ->post("/auth/login", $data);
 
+
         if (! $response->successful()) {
             return back()
                 ->with('error', 'Email ou mot de passe incorrect.');
@@ -49,7 +50,6 @@ class ApiAuthController extends Controller
                 'firstname' => $userData['firstname'] ?? '',
                 // Dummy local password: never used, but satisfies NOT NULL
                 'password' => Str::random(40),
-                'formation' => $userData['formation'],
             ]
         );
 
