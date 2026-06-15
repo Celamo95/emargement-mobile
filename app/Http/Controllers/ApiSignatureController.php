@@ -15,44 +15,46 @@ class ApiSignatureController extends Controller
      */
     public function show(int $id)
     {
+        // Récupère les données du cours
         $response = Http::baseUrl(config('services.api.url'))
             ->acceptJson()
             ->withToken(Session::get('remote_auth_token'))
             ->get('/cours/' . $id);
+            $cours = $response->json();
 
-        $cours = $response->json();
-
-
-        return view('sign', compact('cours'));
-    }
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'signature' => ['required', 'string'],  // base64 data URL
-            'cours_id'  => ['required', 'integer'],
-        ]);
-
-        // Add the authenticated user id explicitly
-        $data['user_id'] = Auth::id();
-
-        $response = Http::baseUrl(config('services.api.url'))
+            // Récupère les apprenants de la formation de ce cours
+        $responseApprenants = Http::baseUrl(config('services.api.url'))
             ->acceptJson()
-            ->withToken(Session::get('remote_auth_token')) // Voir ApiAuthController
-            ->post('/signature', $data);
+            ->withToken(Session::get('remote_auth_token'))
+            ->get('/apprenants', ['formation_id' => $cours['formation_id']]);
 
+        $apprenants = $responseApprenants->json();
 
-
-        if (! $response->successful()) {
-            // Log / handle error
-            return back()->with('error', 'Erreur lors de l\'enregistrement de la signature distante.');
-        }
-        return response('', 302)->header('Location', route('home', [
-            'statut'=>'Signature enregistrée !'
-        ], false));
-        
-        
-        //return redirect()
-         //   ->route('home')
-           // ->with('status', 'Signature enregistrée !');
+        return view('sign', compact('cours', 'apprenants'));
     }
+
+   public function store(Request $request)
+{
+    $data = $request->validate([
+        'signature' => ['required', 'string'],
+        'cours_id'  => ['required', 'integer'],
+    ]);
+
+    $data['user_id'] = Auth::id();
+    
+    // Récupère les présences cochées — tableau [apprenant_id => 'present']
+    // Les non cochées ne sont pas envoyées donc = absent
+    $data['presences'] = $request->input('presences', []);
+
+    $response = Http::baseUrl(config('services.api.url'))
+        ->acceptJson()
+        ->withToken(Session::get('remote_auth_token'))
+        ->post('/signature', $data);
+
+    if (! $response->successful()) {
+        return back()->with('error', 'Erreur lors de l\'enregistrement de la signature distante.');
+    }
+    
+    return response('', 302)->header('Location', route('home', [], false));
+}
 }

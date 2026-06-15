@@ -18,16 +18,35 @@ Signature
         <img src="{{asset('images/Groupe-GEFOR.png')}}" alt="Logo du groupe GEFOR">
     </div>
     <div>
-        <p><strong>Matière :</strong> {{ $cours['matiere'] ?? '' }}</p>
+        <p><strong>Formation :</strong> {{ $cours['formation']['name'] ?? '' }}</p>
+        <p><strong>Matière :</strong> {{ $cours['matiere']['nom'] ?? '' }}</p>
         <p><strong>Date :</strong> {{ \Carbon\Carbon::parse($cours['date'])->format('d/m/Y') }}</p>
         <p><strong>Horaires :</strong> {{ \Carbon\Carbon::parse($cours['heure_debut'])->format('H\hi') }} - {{ \Carbon\Carbon::parse($cours['heure_fin'])->format('H\hi') }}</p>
-
-        <canvas id="signature-pad" width=400 height=200></canvas>
 
         <form method="POST" action="{{ route('sign.store', absolute: false) }}" id="signature-form">
             @csrf
             <input type="hidden" name="cours_id" value="{{ $cours['id'] }}">
             <input type="hidden" name="signature" id="signature_input">
+
+            {{-- Liste des apprenants avec cases à cocher --}}
+            <h3>Présences</h3>
+            @foreach($apprenants as $apprenant)
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+                    <label for="apprenant_{{ $apprenant['id'] }}">
+                        {{ $apprenant['name'] }} {{ $apprenant['firstname'] }}
+                    </label>
+
+                    <input type="checkbox" 
+                           name="presences[{{ $apprenant['id'] }}]" 
+                           value="present" 
+                           id="apprenant_{{ $apprenant['id'] }}"
+                           checked>
+                </div>
+            @endforeach
+
+            {{-- Signature --}}
+            <canvas id="signature-pad" width=400 height=200></canvas>
+            
             <button type="button" id="save">Valider</button>
             <button type="button" id="clear">Effacer</button>
         </form>
@@ -36,6 +55,7 @@ Signature
             <p>{{ session('error') }}</p>
         @endif
     </div>
+</div>
     <p><a href="{{ route('home', absolute: false) }}">Retour page accueil</a></p>
 </div>
 @endsection
