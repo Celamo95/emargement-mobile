@@ -67,7 +67,7 @@ Signature
             @elseif($presence && $presence['statut'] === 'absent')
                 {{-- Apprenant absent → déposer justificatif --}}
                 <p style="color:#dc2626;">Vous êtes marqué absent pour ce cours.</p>
-                <a href="#">Déposer un justificatif</a>
+                <a href="{{ route('justificatif.create', ['presence_id' => $presence['id']], absolute: false) }}">Déposer un justificatif</a>
 
             @else
                 {{-- Formateur n'a pas encore validé --}}

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ApiSignatureController;
 use App\Http\Controllers\ApiProfilController;
 use App\Http\Controllers\ApiPasswordController;
+use App\Http\Controllers\ApiJustificatifController;
+
 
 
 Route::get('/', function () {
@@ -32,11 +34,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profil', [ApiProfilController::class, 'show'])->name('profil.show');
 
     Route::get('/profil/edit', [ApiProfilController::class, 'edit'])->name('profil.edit');
-    
+
     Route::post('/profil', [ApiProfilController::class, 'update'])->name('profil.update');
 
     Route::get('/profil/password', [ApiPasswordController::class, 'edit'])->name('profil.passwordEdit');
 
     Route::post('/profil/password', [ApiPasswordController::class, 'update'])->name('profil.passwordUpdate');
 
+    Route::get('/justificatif/create', [ApiJustificatifController::class, 'create'])->name('justificatif.create');
+
+    Route::post('/justificatif', [ApiJustificatifController::class, 'store'])->name('justificatif.store');
 });
