@@ -39,4 +39,7 @@ return [
         'url' => env('API_URL'),
     ],
 
+    'web' => [
+        'url' => env('WEB_APP_URL'),
+    ],
 ];

@@ -38,8 +38,13 @@ Connexion
         placeholder="Mot de passe"
         autocomplete="current-password"
         >
-        <button type="submit">Connexion</></button>
+        <button type="submit">Connexion</button>
     </form>
+
+    <p style="text-align:center; margin-top:16px;">
+        <a href="{{ config('services.web.url') }}/forgot-password" style="color:#006cb1;">Mot de passe oublié ?</a>
+    </p>
+
 </div>
 
 @push('scripts')
